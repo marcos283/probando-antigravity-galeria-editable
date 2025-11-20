@@ -32,7 +32,11 @@ export default async function getCroppedImg(
     imageSrc,
     pixelCrop,
     rotation = 0,
-    flip = { horizontal: false, vertical: false }
+    flip = { horizontal: false, vertical: false },
+    filter = null,
+    watermark = null,
+    watermarkFont = 'Arial',
+    quality = 0.9
 ) {
     const image = await createImage(imageSrc)
     const canvas = document.createElement('canvas')
@@ -61,6 +65,11 @@ export default async function getCroppedImg(
     ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1)
     ctx.translate(-image.width / 2, -image.height / 2)
 
+    // Apply filter if present
+    if (filter) {
+        ctx.filter = filter;
+    }
+
     // draw image
     ctx.drawImage(image, 0, 0)
 
@@ -80,6 +89,21 @@ export default async function getCroppedImg(
     // paste generated rotate image at the top left corner
     ctx.putImageData(data, 0, 0)
 
+    // Apply watermark if present
+    if (watermark) {
+        ctx.save();
+        // Scale font size based on canvas width
+        const fontSize = Math.max(20, canvas.width * 0.05);
+        ctx.font = `bold ${fontSize}px "${watermarkFont}", Arial`;
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'bottom';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 4;
+        ctx.fillText(watermark, canvas.width - (fontSize * 0.5), canvas.height - (fontSize * 0.5));
+        ctx.restore();
+    }
+
     // As Base64 string
     // return canvas.toDataURL('image/jpeg');
 
@@ -87,6 +111,6 @@ export default async function getCroppedImg(
     return new Promise((resolve, reject) => {
         canvas.toBlob((file) => {
             resolve(URL.createObjectURL(file))
-        }, 'image/jpeg')
+        }, 'image/jpeg', quality)
     })
 }
