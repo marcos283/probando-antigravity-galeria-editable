@@ -4,7 +4,7 @@ import getCroppedImg from '../utils/cropImage'
 import { Check, X as XIcon, ZoomIn, Crop, Wand2, Type } from 'lucide-react'
 
 const ASPECT_RATIOS = [
-    { label: 'Free', value: undefined },
+    { label: 'Free', value: 'free' },
     { label: 'Original', value: 'original' },
     { label: 'Square', value: 1 },
     { label: 'Portrait', value: 4 / 5 },
@@ -170,12 +170,22 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
                                 {ASPECT_RATIOS.map((ratio) => (
                                     <button
                                         key={ratio.label}
-                                        onClick={() => setAspect(ratio.value === 'original' ? originalAspect : ratio.value)}
+                                        onClick={() => {
+                                            if (ratio.value === 'free') setAspect(undefined)
+                                            else if (ratio.value === 'original') setAspect(originalAspect)
+                                            else setAspect(ratio.value)
+                                        }}
                                         style={{
                                             padding: '0.5rem 1rem',
                                             background: 'transparent',
-                                            border: (aspect === ratio.value) || (ratio.value === 'original' && aspect === originalAspect) ? '1px solid var(--text-primary)' : '1px solid transparent',
-                                            color: (aspect === ratio.value) || (ratio.value === 'original' && aspect === originalAspect) ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                            border: (aspect === ratio.value) ||
+                                                (ratio.value === 'original' && aspect === originalAspect) ||
+                                                (ratio.value === 'free' && aspect === undefined)
+                                                ? '1px solid var(--text-primary)' : '1px solid transparent',
+                                            color: (aspect === ratio.value) ||
+                                                (ratio.value === 'original' && aspect === originalAspect) ||
+                                                (ratio.value === 'free' && aspect === undefined)
+                                                ? 'var(--text-primary)' : 'var(--text-secondary)',
                                             fontSize: '0.8rem',
                                             textTransform: 'uppercase',
                                             letterSpacing: '0.05em',
