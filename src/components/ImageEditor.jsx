@@ -4,7 +4,7 @@ import getCroppedImg from '../utils/cropImage'
 import { Check, X as XIcon, ZoomIn, Crop, Wand2, Type } from 'lucide-react'
 
 const ASPECT_RATIOS = [
-    { label: 'Original', value: null },
+    { label: 'Original', value: undefined },
     { label: 'Square', value: 1 },
     { label: 'Portrait', value: 4 / 5 },
     { label: 'Landscape', value: 16 / 9 },
@@ -30,7 +30,7 @@ const FONTS = [
 const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
-    const [aspect, setAspect] = useState(1)
+    const [aspect, setAspect] = useState(undefined)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
 
     // New features state
