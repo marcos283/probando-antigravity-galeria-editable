@@ -38,6 +38,7 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
     const [activeFilter, setActiveFilter] = useState(null)
     const [watermarkText, setWatermarkText] = useState('')
     const [watermarkFont, setWatermarkFont] = useState('Arial')
+    const [isSmartCompression, setIsSmartCompression] = useState(true)
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels)
@@ -53,7 +54,7 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
                 activeFilter,
                 watermarkText || null,
                 watermarkFont,
-                0.85 // Quality for social export
+                isSmartCompression ? 0.8 : 1.0 // Quality based on toggle
             )
             onSave(croppedImage)
         } catch (e) {
@@ -261,21 +262,47 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
                     )}
                 </div>
 
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem' }}>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem' }}>
                     <button
-                        onClick={onCancel}
-                        className="btn-secondary"
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                        onClick={() => setIsSmartCompression(!isSmartCompression)}
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: isSmartCompression ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            fontSize: '0.8rem',
+                            cursor: 'pointer'
+                        }}
+                        title={isSmartCompression ? "Optimized for Social Media (Smaller size)" : "Maximum Quality (Larger size)"}
                     >
-                        <XIcon size={16} /> Cancel
+                        <span style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            background: isSmartCompression ? '#4ade80' : 'var(--text-secondary)',
+                            display: 'inline-block'
+                        }}></span>
+                        ⚡ Smart Compression
                     </button>
-                    <button
-                        onClick={handleSave}
-                        className="btn-primary"
-                        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-                    >
-                        <Check size={16} /> Save & Export
-                    </button>
+
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button
+                            onClick={onCancel}
+                            className="btn-secondary"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                        >
+                            <XIcon size={16} /> Cancel
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            className="btn-primary"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                        >
+                            <Check size={16} /> Save & Export
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

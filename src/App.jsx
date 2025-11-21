@@ -32,6 +32,13 @@ function App() {
     setSelectedImage(newImage)
   }
 
+  const handleDeleteImage = (imageId) => {
+    setImages(prev => prev.filter(img => img.id !== imageId))
+    if (selectedImage && selectedImage.id === imageId) {
+      setSelectedImage(null)
+    }
+  }
+
   return (
     <div className="app-container">
       <header style={{ marginBottom: '4rem', textAlign: 'center', paddingTop: '2rem' }}>
@@ -54,6 +61,7 @@ function App() {
           <GalleryGrid
             images={images}
             onImageClick={setSelectedImage}
+            onDelete={handleDeleteImage}
           />
         ) : (
           <div style={{
