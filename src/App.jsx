@@ -2,6 +2,7 @@ import { useState } from 'react'
 import UploadZone from './components/UploadZone'
 import GalleryGrid from './components/GalleryGrid'
 import ImageModal from './components/ImageModal'
+import AnimatedHeader from './components/AnimatedHeader'
 import './App.css'
 
 function App() {
@@ -34,15 +35,7 @@ function App() {
   return (
     <div className="app-container">
       <header style={{ marginBottom: '4rem', textAlign: 'center', paddingTop: '2rem' }}>
-        <h1 style={{
-          fontSize: '4rem',
-          fontWeight: '400',
-          marginBottom: '1.5rem',
-          letterSpacing: '-0.03em',
-          color: 'var(--text-primary)'
-        }}>
-          Galería Pro
-        </h1>
+        <AnimatedHeader />
         <p style={{
           color: 'var(--text-secondary)',
           fontSize: '1.1rem',

@@ -1,0 +1,79 @@
+/**
+ * AnimatedHeader.css
+ * 
+ * Styles for the SVG header animation.
+ * This implements a "draw and fill" effect where the text stroke is drawn first,
+ * followed by a fade-in of the fill color.
+ */
+
+.animated-header-svg {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  /* Adjust based on text length to prevent it from being too huge */
+  display: block;
+  margin: 0 auto 1.5rem auto;
+  cursor: default;
+}
+
+.animated-header-text {
+  font-family: inherit;
+  /* Inherits font from the parent/body */
+  font-size: 80px;
+  /* Large font size for the SVG coordinate system */
+  font-weight: 400;
+  letter-spacing: -0.03em;
+
+  /* Initial State: Solid color, no stroke visible (looks like normal text) */
+  fill: var(--text-primary);
+  stroke: var(--text-primary);
+  stroke-width: 0;
+
+  /* Prepare stroke properties for animation */
+  stroke-dasharray: 1000;
+  /* Long enough to cover the entire text path */
+  stroke-dashoffset: 1000;
+  /* Initially hidden if we were in 'animating' state */
+
+  transition: fill 0.3s ease;
+}
+
+/* 
+ * Hover State Trigger
+ * When the user hovers over the SVG container, we trigger the animation.
+ * We set fill to transparent immediately so the stroke animation is visible.
+ */
+.animated-header-svg:hover .animated-header-text {
+  animation: drawStroke 2s forwards;
+  fill: transparent;
+}
+
+/**
+ * Keyframes for the drawStroke animation
+ * 1. Start (0%): Transparent fill, thick stroke, stroke hidden (offset).
+ * 2. Draw (80%): Stroke is fully drawn (offset 0). Fill is still transparent.
+ * 3. Fill (100%): Stroke disappears, solid fill fades in.
+ */
+@keyframes drawStroke {
+  0% {
+    fill-opacity: 0;
+    stroke-width: 2px;
+    stroke-dashoffset: 1000;
+  }
+
+  40% {
+    fill-opacity: 0;
+  }
+
+  80% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+
+  100% {
+    stroke-width: 0;
+    fill-opacity: 1;
+    fill: var(--text-primary);
+    stroke-dashoffset: 0;
+  }
+}
