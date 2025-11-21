@@ -178,7 +178,7 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
                                 onLoad={onImageLoad}
                                 style={{
                                     display: 'block', // Important to remove bottom space
-                                    maxHeight: 'calc(100vh - 200px)', // Ensure it fits with panel
+                                    maxHeight: 'calc(100vh - 350px)', // Ensure it fits with panel
                                     maxWidth: '100%',
                                     objectFit: 'contain',
                                     filter: activeFilter || 'none'

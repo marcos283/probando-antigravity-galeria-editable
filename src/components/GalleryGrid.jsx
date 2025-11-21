@@ -60,7 +60,6 @@ const GalleryGrid = ({ images, onImageClick, onDelete }) => {
                         }}
                         onMouseOver={(e) => {
                             e.currentTarget.style.background = 'rgba(220, 38, 38, 0.8)';
-                            e.currentTarget.style.opacity = '1';
                         }}
                         onMouseOut={(e) => {
                             e.currentTarget.style.background = 'rgba(0, 0, 0, 0.6)';
@@ -71,7 +70,7 @@ const GalleryGrid = ({ images, onImageClick, onDelete }) => {
                     </button>
                     <style>{`
                         .group:hover .delete-btn {
-                            opacity: 1;
+                            opacity: 1 !important;
                         }
                     `}</style>
                 </div>
