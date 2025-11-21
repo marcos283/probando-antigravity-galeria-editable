@@ -88,7 +88,7 @@ const ImageEditor = ({ imageSrc, onSave, onCancel }) => {
                     onZoomChange={setZoom}
                     onMediaLoaded={onMediaLoaded}
                     style={{
-                        containerStyle: {
+                        mediaStyle: {
                             filter: activeFilter || 'none'
                         }
                     }}
